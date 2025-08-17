@@ -1,0 +1,15 @@
+# Git Learners Guestbook ✨
+
+Welcome website team! This is a shared project for practicing Git and GitHub.  
+Each learner should add their own entry below by following the instructions.
+
+---
+
+## How to Contribute:
+1. Clone this repo to your machine.
+2. Create a new branch with your name (e.g., `feature/your-name`).
+3. Add your entry at the end of this file.
+4. Commit your change with a meaningful message.
+5. Push your branch to GitHub.
+6. Open a Pull Request (PR) to the `main` branch.
+7. Wait for review and merge.
