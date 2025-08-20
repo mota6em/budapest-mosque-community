@@ -6,10 +6,15 @@ Each learner should add their own entry below by following the instructions.
 ---
 
 ## How to Contribute:
-1. Fork and Clone this repo to your machine.
-2. Create a new branch with your name (e.g., `feature/your-name`).
-3. create HTML file contains some data about you.
-4. Commit your change with a meaningful message.
-5. Push your branch to GitHub.
-6. Open a Pull Request (PR) to the `main` branch.
+1. Use the "Fork" button and create a version of this project to your Github account
+2. Clone this repo to your machine and open it with VS code.
+3. Create a new branch with your name (e.g., `feature/your-name`).
+4. create HTML file contains some data about you.
+5. Commit your change with a meaningful message.
+6. Push your branch to GitHub.
+7. Open a Pull Request (PR) to the `main` branch.
 7. Wait for review and merge.
+
+## Prerequisite:
+1. Git installed locally (https://git-scm.com/downloads)
+2. VS code installed (https://code.visualstudio.com/download)
