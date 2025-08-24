@@ -3,22 +3,15 @@ import { dailyHadith, quranicVerse } from '../data/mockData';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
-import { Separator } from './ui/separator';
+import { FiBook, FiRefreshCw, FiPlay, FiFileText } from 'react-icons/fi';
 
 const SpiritualContent = () => {
   const [currentHadith, setCurrentHadith] = useState(dailyHadith);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-
-  React.useEffect(() => {
-    setIsVisible(true);
-  }, []);
 
   const handleRefreshHadith = () => {
     setIsRefreshing(true);
-    // Simulate loading new hadith
     setTimeout(() => {
-      // In a real app, this would fetch a new hadith from an API
       setCurrentHadith({
         ...dailyHadith,
         arabic: "مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ طَرِيقًا إِلَى الْجَنَّةِ",
@@ -34,207 +27,148 @@ const SpiritualContent = () => {
   };
 
   return (
-    <section id="spiritual-content" className="py-20 px-6 bg-base-100 relative overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-20 left-20 w-48 h-48 bg-secondary rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-20 w-32 h-32 bg-primary rounded-full blur-3xl"></div>
-      </div>
-
-      <div className="max-w-7xl mx-auto relative z-10">
-        {/* Enhanced Header */}
-        <div className="text-center mb-16">
-          <div className={`transition-all duration-1000 ease-out ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}>
-            <Badge variant="outline" className="mb-4 px-4 py-2 text-sm font-medium border-secondary/30">
-              📖 Daily Content
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Daily Spiritual Content
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Enrich your day with wisdom from the Quran and Hadith
-            </p>
-          </div>
+    <section id="spiritual-content" className="py-16 px-6 bg-background">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            Daily Spiritual Content
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Enrich your day with wisdom from the Quran and Hadith
+          </p>
         </div>
 
         {/* Content Grid */}
-        <div className="grid lg:grid-cols-2 gap-8 mb-16">
-          {/* Enhanced Daily Hadith Card */}
-          <Card className="relative overflow-hidden hover:shadow-2xl transition-all duration-500 group">
-            {/* Decorative quote marks */}
-            <div className="absolute top-6 right-6 text-primary/20 text-8xl group-hover:scale-110 transition-transform duration-500">
-              "
-            </div>
-            
-            {/* Hover effect overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            
-            <CardHeader className="relative z-10">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <span className="text-2xl">📖</span>
-                </div>
-                <CardTitle className="text-3xl font-bold">
-                  Daily Hadith
-                </CardTitle>
+        <div className="grid lg:grid-cols-2 gap-8">
+          {/* Daily Hadith Card */}
+          <Card className="hover:shadow-md transition-all duration-200">
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <FiBook size={24} className="text-primary" />
+                <CardTitle className="text-2xl">Daily Hadith</CardTitle>
               </div>
             </CardHeader>
 
-            <CardContent className="relative z-10 space-y-8">
+            <CardContent className="space-y-6">
               {/* Arabic Text */}
-              <div className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl p-6 border border-primary/10">
-                <p className="text-2xl md:text-3xl font-arabic text-right leading-relaxed text-foreground font-medium">
+              <div className="bg-muted/50 rounded-lg p-4">
+                <p className="text-xl md:text-2xl font-arabic text-right leading-relaxed text-foreground">
                   {currentHadith.arabic}
                 </p>
               </div>
 
               {/* English Translation */}
-              <div className="bg-gradient-to-r from-secondary/5 to-primary/5 rounded-2xl p-6 border border-secondary/10">
-                <p className="text-xl leading-relaxed text-foreground italic font-medium">
+              <div className="bg-muted/30 rounded-lg p-4">
+                <p className="text-lg leading-relaxed text-foreground italic">
                   "{currentHadith.english}"
                 </p>
               </div>
 
-              {/* Enhanced Source Information */}
-              <div className="bg-muted/50 rounded-2xl p-6 border border-border/50">
-                <h4 className="font-semibold text-foreground mb-4 text-lg">Source Information</h4>
+              {/* Source Information */}
+              <div className="bg-muted/50 rounded-lg p-4">
+                <h4 className="font-semibold text-foreground mb-3">Source Information</h4>
                 <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <span className="text-primary">📚</span>
-                      <span className="font-medium text-foreground">Source:</span>
-                    </div>
-                    <p className="text-muted-foreground ml-6">{currentHadith.source}</p>
+                  <div>
+                    <span className="font-medium text-foreground">Source:</span>
+                    <p className="text-muted-foreground">{currentHadith.source}</p>
                   </div>
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <span className="text-primary">👤</span>
-                      <span className="font-medium text-foreground">Narrator:</span>
-                    </div>
-                    <p className="text-muted-foreground ml-6">{currentHadith.narrator}</p>
+                  <div>
+                    <span className="font-medium text-foreground">Narrator:</span>
+                    <p className="text-muted-foreground">{currentHadith.narrator}</p>
                   </div>
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <span className="text-primary">📖</span>
-                      <span className="font-medium text-foreground">Book:</span>
-                    </div>
-                    <p className="text-muted-foreground ml-6">{currentHadith.bookNumber}</p>
+                  <div>
+                    <span className="font-medium text-foreground">Book:</span>
+                    <p className="text-muted-foreground">{currentHadith.bookNumber}</p>
                   </div>
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <span className="text-primary">🔢</span>
-                      <span className="font-medium text-foreground">Hadith:</span>
-                    </div>
-                    <p className="text-muted-foreground ml-6">{currentHadith.hadithNumber}</p>
+                  <div>
+                    <span className="font-medium text-foreground">Hadith:</span>
+                    <p className="text-muted-foreground">{currentHadith.hadithNumber}</p>
                   </div>
                 </div>
               </div>
 
-              {/* Enhanced Explanation */}
-              <div className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl p-6 border border-primary/10">
-                <h5 className="font-semibold text-foreground mb-3 text-lg">Explanation</h5>
+              {/* Explanation */}
+              <div className="bg-muted/30 rounded-lg p-4">
+                <h5 className="font-semibold text-foreground mb-2">Explanation</h5>
                 <p className="text-muted-foreground leading-relaxed">
                   {currentHadith.explanation}
                 </p>
               </div>
 
-              {/* Enhanced Refresh Button */}
+              {/* Refresh Button */}
               <Button
                 onClick={handleRefreshHadith}
                 disabled={isRefreshing}
                 variant="secondary"
-                size="lg"
-                className="w-full h-14 text-lg font-semibold group-hover:scale-105 transition-all duration-300"
+                className="w-full"
               >
-                <span className={`mr-3 ${isRefreshing ? 'animate-spin' : ''}`}>
-                  🔄
-                </span>
-                {isRefreshing ? 'Loading New Hadith...' : 'Get Next Hadith'}
+                <FiRefreshCw size={18} className={`mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
+                {isRefreshing ? 'Loading...' : 'Get Next Hadith'}
               </Button>
             </CardContent>
           </Card>
 
-          {/* Enhanced Quranic Reflection Card */}
-          <Card className="relative overflow-hidden hover:shadow-2xl transition-all duration-500 group">
-            {/* Decorative Islamic pattern */}
-            <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-primary/10 to-transparent rounded-full -translate-y-20 translate-x-20 group-hover:scale-110 transition-transform duration-500"></div>
-            
-            {/* Hover effect overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-secondary/5 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            
-            <CardHeader className="relative z-10">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 bg-secondary/10 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <span className="text-2xl">📖</span>
-                </div>
-                <CardTitle className="text-3xl font-bold">
-                  Quranic Reflection
-                </CardTitle>
+          {/* Quranic Reflection Card */}
+          <Card className="hover:shadow-md transition-all duration-200">
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <FiBook size={24} className="text-primary" />
+                <CardTitle className="text-2xl">Quranic Reflection</CardTitle>
               </div>
             </CardHeader>
 
-            <CardContent className="relative z-10 space-y-8">
-              {/* Enhanced Surah and Verse Info */}
-              <div className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground rounded-2xl p-6 text-center shadow-lg">
-                <h4 className="text-2xl font-bold mb-2">{quranicVerse.surah}</h4>
-                <Separator className="bg-primary-foreground/20 mb-3" />
-                <Badge variant="secondary" className="bg-primary-foreground text-primary font-bold px-4 py-2">
+            <CardContent className="space-y-6">
+              {/* Surah and Verse Info */}
+              <div className="bg-primary text-primary-foreground rounded-lg p-4 text-center">
+                <h4 className="text-xl font-bold mb-1">{quranicVerse.surah}</h4>
+                <Badge variant="secondary" className="bg-primary-foreground text-primary">
                   Verse {quranicVerse.verse}
                 </Badge>
               </div>
 
               {/* Arabic Text */}
-              <div className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl p-6 border border-primary/10">
-                <p className="text-2xl md:text-3xl font-arabic text-right leading-relaxed text-foreground font-medium">
+              <div className="bg-muted/50 rounded-lg p-4">
+                <p className="text-xl md:text-2xl font-arabic text-right leading-relaxed text-foreground">
                   {quranicVerse.arabic}
                 </p>
               </div>
 
               {/* English Translation */}
-              <div className="bg-gradient-to-r from-secondary/5 to-primary/5 rounded-2xl p-6 border border-secondary/10">
-                <p className="text-xl leading-relaxed text-foreground italic font-medium">
+              <div className="bg-muted/30 rounded-lg p-4">
+                <p className="text-lg leading-relaxed text-foreground italic">
                   "{quranicVerse.english}"
                 </p>
               </div>
 
-              {/* Enhanced Reflection */}
-              <div className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl p-6 border border-primary/10">
-                <h5 className="font-semibold text-foreground mb-3 text-lg flex items-center gap-2">
-                  <span>💭</span>
-                  Reflection
-                </h5>
+              {/* Reflection */}
+              <div className="bg-muted/50 rounded-lg p-4">
+                <h5 className="font-semibold text-foreground mb-2">Reflection</h5>
                 <p className="text-muted-foreground leading-relaxed">
                   {quranicVerse.translation}
                 </p>
               </div>
 
-              {/* Enhanced Action Buttons */}
-              <div className="flex gap-4">
-                <Button size="lg" className="flex-1 h-14 text-lg font-semibold bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary group-hover:scale-105 transition-all duration-300">
-                  <span className="mr-2">▶️</span>
-                  Listen to Recitation
+              {/* Action Buttons */}
+              <div className="flex gap-3">
+                <Button className="flex-1">
+                  <FiPlay size={18} className="mr-2" />
+                  Listen
                 </Button>
-                <Button variant="outline" size="lg" className="flex-1 h-14 text-lg font-semibold border-2 border-primary/30 hover:border-primary/50 hover:bg-primary/5 group-hover:scale-105 transition-all duration-300">
-                  <span className="mr-2">📖</span>
-                  Read Full Surah
+                <Button variant="outline" className="flex-1">
+                  <FiFileText size={18} className="mr-2" />
+                  Read More
                 </Button>
               </div>
             </CardContent>
           </Card>
         </div>
 
-        {/* Enhanced Bottom Decoration */}
-        <div className="text-center">
-          <Card className="bg-gradient-to-r from-primary/10 to-secondary/10 border-primary/20 shadow-lg hover:shadow-xl transition-all duration-500">
-            <CardContent className="py-8">
-              <Badge variant="outline" className="px-8 py-4 text-lg font-semibold border-primary/30 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300">
-                <span className="mr-3">🤲</span>
-                May Allah guide us all to the straight path
-              </Badge>
-            </CardContent>
-          </Card>
+        {/* Bottom Decoration */}
+        <div className="text-center mt-12">
+          <Badge variant="outline" className="px-6 py-3 text-base">
+            May Allah guide us all to the straight path
+          </Badge>
         </div>
       </div>
     </section>
