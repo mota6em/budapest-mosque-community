@@ -123,12 +123,12 @@ const QuickNavigation = () => {
         <div className="text-center">
           <Card className="bg-primary text-primary-foreground border-0">
             <CardHeader className="text-center">
-              <CardTitle className="text-2xl">Join Our Community</CardTitle>
+              <CardTitle className="text-2xl">Join Budapest Mosque Community</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
               <p className="text-lg opacity-90 mb-6 max-w-2xl mx-auto">
-                Connect with fellow Muslims, access resources, and grow together in faith. 
-                Your spiritual journey starts here.
+                Connect with fellow Muslims in Budapest, access Islamic resources, and grow together in faith. 
+                Your spiritual journey in Hungary starts here.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button 
@@ -136,14 +136,14 @@ const QuickNavigation = () => {
                   size="lg" 
                   className="bg-primary-foreground text-primary hover:bg-primary-foreground/90"
                 >
-                  Get Started
+                  Join BMC
                 </Button>
                 <Button 
                   variant="outline" 
                   size="lg" 
                   className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
                 >
-                  Learn More
+                  Contact Us
                 </Button>
               </div>
             </CardContent>

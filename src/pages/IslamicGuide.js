@@ -54,7 +54,7 @@ const IslamicGuide = () => {
             Islamic Guide
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Comprehensive resources to help you learn and grow in your Islamic knowledge and practice.
+            Comprehensive resources to help you learn and grow in your Islamic knowledge and practice in Budapest.
           </p>
         </div>
 

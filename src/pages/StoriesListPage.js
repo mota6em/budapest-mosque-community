@@ -139,7 +139,7 @@ const StoriesListPage = () => {
             Stories & Articles
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Discover inspiring stories, insightful articles, and valuable knowledge from our Islamic community.
+            Discover inspiring stories, insightful articles, and valuable knowledge from our Budapest Islamic community.
           </p>
         </div>
 

@@ -42,10 +42,10 @@ const Header = () => {
           </div>
           <div className="flex flex-col">
             <span className="font-bold text-lg text-foreground group-hover:text-primary transition-colors duration-300">
-              Islamic Community
+              Budapest Mosque Community
             </span>
             <Badge variant="outline" className="text-xs px-2 py-0.5 border-primary/30 text-primary w-fit">
-              Platform
+              BMC
             </Badge>
           </div>
         </Link>
