@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getPrayerTimes, getPrayerCountdown } from '../utils/islamicUtils';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { Badge } from './ui/badge';
 
 const PrayerTimesWidget = () => {
   const [prayerData, setPrayerData] = useState(null);
@@ -44,36 +46,15 @@ const PrayerTimesWidget = () => {
     }
   };
 
-  const getPrayerColor = (prayerName) => {
-    if (prayerName === nextPrayer) {
-      return 'bg-gradient-to-r from-islamic-primary to-islamic-primary-dark text-white';
-    }
-    return 'bg-white hover:bg-gray-50';
-  };
-
-  const getPrayerTextColor = (prayerName) => {
-    if (prayerName === nextPrayer) {
-      return 'text-white';
-    }
-    return 'text-islamic-text-primary';
-  };
-
-  const getPrayerTimeColor = (prayerName) => {
-    if (prayerName === nextPrayer) {
-      return 'text-white/90';
-    }
-    return 'text-islamic-text-secondary';
-  };
-
   return (
-    <section className="py-16 px-6 bg-gradient-to-br from-gray-50 to-white">
+    <section id="prayer-times" className="py-16 px-6 bg-gradient-to-br from-base-200 to-base-100">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-islamic-text-primary mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             Prayer Times
           </h2>
-          <div className="flex items-center justify-center gap-2 text-islamic-text-secondary">
+          <div className="flex items-center justify-center gap-2 text-muted-foreground">
             <span className="text-xl">📍</span>
             <span className="text-lg">{location}</span>
           </div>
@@ -81,78 +62,80 @@ const PrayerTimesWidget = () => {
 
         {/* Next Prayer Highlight */}
         <div className="mb-8">
-          <div className="bg-gradient-to-r from-islamic-primary to-islamic-primary-dark rounded-3xl p-8 text-white text-center shadow-xl">
-            <h3 className="text-xl font-medium mb-2">Next Prayer</h3>
-            <div className="text-4xl md:text-6xl font-bold mb-4">{nextPrayer}</div>
-            <div className="text-2xl md:text-3xl mb-6">{nextPrayerTime}</div>
-            
-            {countdown && (
-              <div className="bg-white/20 rounded-2xl p-4 backdrop-blur-sm">
-                <p className="text-sm mb-2">Time until {nextPrayer}</p>
-                <div className="flex justify-center gap-4 text-2xl font-bold">
-                  <div className="text-center">
-                    <div className="bg-white/30 rounded-lg px-3 py-2">
-                      {countdown.hours.toString().padStart(2, '0')}
-                    </div>
-                    <div className="text-sm mt-1">Hours</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="bg-white/30 rounded-lg px-3 py-2">
-                      {countdown.minutes.toString().padStart(2, '0')}
-                    </div>
-                    <div className="text-sm mt-1">Minutes</div>
+          <Card className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground border-0 shadow-xl">
+            <CardHeader className="text-center">
+              <CardTitle className="text-2xl font-medium">Next Prayer</CardTitle>
+            </CardHeader>
+            <CardContent className="text-center">
+              <div className="text-5xl md:text-7xl font-bold mb-6">{nextPrayer}</div>
+              <div className="text-3xl md:text-4xl mb-8">{nextPrayerTime}</div>
+              
+              {countdown && (
+                <div className="bg-primary-foreground/20 rounded-2xl p-6 backdrop-blur-sm">
+                  <p className="text-sm mb-4">Time until {nextPrayer}</p>
+                  <div className="countdown font-mono text-4xl font-bold">
+                    <span style={{"--value": countdown.hours}}></span>h
+                    <span style={{"--value": countdown.minutes}}></span>m
                   </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+            </CardContent>
+          </Card>
         </div>
 
         {/* Prayer Times Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
           {Object.entries(times).map(([prayer, time]) => (
-            <div
+            <Card
               key={prayer}
-              className={`${getPrayerColor(prayer)} rounded-2xl p-6 text-center transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl`}
+              className={`hover:scale-105 transition-all duration-300 ${
+                prayer === nextPrayer 
+                  ? 'ring-2 ring-primary ring-offset-2 bg-primary text-primary-foreground' 
+                  : 'hover:shadow-lg'
+              }`}
             >
-              <div className="flex justify-center mb-3">
-                {getPrayerIcon(prayer)}
-              </div>
-              <h4 className={`font-semibold mb-2 ${getPrayerTextColor(prayer)}`}>
-                {prayer}
-              </h4>
-              <div className={`text-lg font-bold ${getPrayerTimeColor(prayer)}`}>
-                {time}
-              </div>
-              {prayer === nextPrayer && (
-                <div className="mt-2">
-                  <span className="bg-white/20 text-white text-xs px-2 py-1 rounded-full">
-                    Next
-                  </span>
+              <CardHeader className="text-center pb-2">
+                <div className="flex justify-center mb-2">
+                  {getPrayerIcon(prayer)}
                 </div>
-              )}
-            </div>
+                <CardTitle className={`text-lg ${prayer === nextPrayer ? 'text-primary-foreground' : 'text-foreground'}`}>
+                  {prayer}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="text-center pt-0">
+                <div className={`text-xl font-bold ${prayer === nextPrayer ? 'text-primary-foreground' : 'text-muted-foreground'}`}>
+                  {time}
+                </div>
+                {prayer === nextPrayer && (
+                  <Badge variant="secondary" className="mt-2 bg-primary-foreground text-primary">
+                    Next
+                  </Badge>
+                )}
+              </CardContent>
+            </Card>
           ))}
         </div>
 
         {/* Prayer Reminders */}
-        <div className="mt-12 text-center">
-          <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 inline-block">
-            <h4 className="text-lg font-semibold text-islamic-text-primary mb-3">
-              Prayer Reminders
-            </h4>
-            <div className="flex flex-wrap justify-center gap-2">
-              <span className="bg-islamic-primary/10 text-islamic-primary px-3 py-1 rounded-full text-sm">
-                Make Wudu
-              </span>
-              <span className="bg-islamic-primary/10 text-islamic-primary px-3 py-1 rounded-full text-sm">
-                Face Qiblah
-              </span>
-              <span className="bg-islamic-primary/10 text-islamic-primary px-3 py-1 rounded-full text-sm">
-                Be Mindful
-              </span>
-            </div>
-          </div>
+        <div className="text-center">
+          <Card className="bg-card/80 backdrop-blur-sm border-border/50">
+            <CardContent className="pt-6">
+              <h4 className="text-lg font-semibold text-foreground mb-4">
+                Prayer Reminders
+              </h4>
+              <div className="flex flex-wrap justify-center gap-2">
+                <Badge variant="outline" className="px-3 py-1">
+                  Make Wudu
+                </Badge>
+                <Badge variant="outline" className="px-3 py-1">
+                  Face Qiblah
+                </Badge>
+                <Badge variant="outline" className="px-3 py-1">
+                  Be Mindful
+                </Badge>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </section>

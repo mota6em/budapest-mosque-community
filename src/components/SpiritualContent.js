@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { dailyHadith, quranicVerse } from '../data/mockData';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { Button } from './ui/button';
+import { Badge } from './ui/badge';
 
 const SpiritualContent = () => {
   const [currentHadith, setCurrentHadith] = useState(dailyHadith);
@@ -25,14 +28,14 @@ const SpiritualContent = () => {
   };
 
   return (
-    <section className="py-16 px-6 bg-white">
+    <section id="spiritual-content" className="py-16 px-6 bg-base-100">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-islamic-text-primary mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             Daily Spiritual Content
           </h2>
-          <p className="text-lg text-islamic-text-secondary max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Enrich your day with wisdom from the Quran and Hadith
           </p>
         </div>
@@ -40,138 +43,143 @@ const SpiritualContent = () => {
         {/* Content Grid */}
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Daily Hadith Card */}
-          <div className="islamic-card p-8 relative overflow-hidden">
+          <Card className="relative overflow-hidden hover:shadow-xl transition-all duration-300">
             {/* Decorative quote marks */}
-            <div className="absolute top-4 right-4 text-islamic-primary/20 text-6xl">
+            <div className="absolute top-4 right-4 text-primary/20 text-6xl">
               "
             </div>
             
-            <div className="relative z-10">
-              <div className="flex items-center gap-2 mb-6">
+            <CardHeader>
+              <div className="flex items-center gap-2">
                 <span className="text-2xl">📖</span>
-                <h3 className="text-2xl font-bold text-islamic-text-primary">
+                <CardTitle className="text-2xl">
                   Daily Hadith
-                </h3>
+                </CardTitle>
               </div>
+            </CardHeader>
 
+            <CardContent className="space-y-6">
               {/* Arabic Text */}
-              <div className="mb-6">
-                <p className="text-xl md:text-2xl font-arabic text-right leading-relaxed text-islamic-text-primary">
+              <div>
+                <p className="text-xl md:text-2xl font-arabic text-right leading-relaxed text-foreground">
                   {currentHadith.arabic}
                 </p>
               </div>
 
               {/* English Translation */}
-              <div className="mb-6">
-                <p className="text-lg leading-relaxed text-islamic-text-secondary italic">
+              <div>
+                <p className="text-lg leading-relaxed text-muted-foreground italic">
                   "{currentHadith.english}"
                 </p>
               </div>
 
               {/* Source Information */}
-              <div className="bg-islamic-primary/5 rounded-xl p-4 mb-6">
+              <div className="bg-muted/50 rounded-xl p-4">
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <span className="font-medium text-islamic-text-primary">Source:</span>
-                    <p className="text-islamic-text-secondary">{currentHadith.source}</p>
+                    <span className="font-medium text-foreground">Source:</span>
+                    <p className="text-muted-foreground">{currentHadith.source}</p>
                   </div>
                   <div>
-                    <span className="font-medium text-islamic-text-primary">Narrator:</span>
-                    <p className="text-islamic-text-secondary">{currentHadith.narrator}</p>
+                    <span className="font-medium text-foreground">Narrator:</span>
+                    <p className="text-muted-foreground">{currentHadith.narrator}</p>
                   </div>
                   <div>
-                    <span className="font-medium text-islamic-text-primary">Book:</span>
-                    <p className="text-islamic-text-secondary">{currentHadith.bookNumber}</p>
+                    <span className="font-medium text-foreground">Book:</span>
+                    <p className="text-muted-foreground">{currentHadith.bookNumber}</p>
                   </div>
                   <div>
-                    <span className="font-medium text-islamic-text-primary">Hadith:</span>
-                    <p className="text-islamic-text-secondary">{currentHadith.hadithNumber}</p>
+                    <span className="font-medium text-foreground">Hadith:</span>
+                    <p className="text-muted-foreground">{currentHadith.hadithNumber}</p>
                   </div>
                 </div>
               </div>
 
               {/* Explanation */}
-              <div className="mb-6">
-                <p className="text-sm text-islamic-text-secondary leading-relaxed">
+              <div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
                   {currentHadith.explanation}
                 </p>
               </div>
 
               {/* Refresh Button */}
-              <button
+              <Button
                 onClick={handleRefreshHadith}
                 disabled={isRefreshing}
-                className="flex items-center gap-2 bg-islamic-secondary text-white px-4 py-2 rounded-lg hover:bg-islamic-secondary-dark transition-colors duration-200 disabled:opacity-50"
+                variant="secondary"
+                className="w-full"
               >
                 <span className={isRefreshing ? 'animate-spin' : ''}>
-                  {isRefreshing ? '🔄' : '🔄'}
+                  🔄
                 </span>
                 {isRefreshing ? 'Loading...' : 'Next Hadith'}
-              </button>
-            </div>
-          </div>
+              </Button>
+            </CardContent>
+          </Card>
 
           {/* Quranic Reflection Card */}
-          <div className="islamic-card p-8 relative overflow-hidden">
+          <Card className="relative overflow-hidden hover:shadow-xl transition-all duration-300">
             {/* Decorative Islamic pattern */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-islamic-primary/10 to-transparent rounded-full -translate-y-16 translate-x-16"></div>
+            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-full -translate-y-16 translate-x-16"></div>
             
-            <div className="relative z-10">
-              <div className="flex items-center gap-2 mb-6">
+            <CardHeader>
+              <div className="flex items-center gap-2">
                 <span className="text-2xl">📖</span>
-                <h3 className="text-2xl font-bold text-islamic-text-primary">
+                <CardTitle className="text-2xl">
                   Quranic Reflection
-                </h3>
+                </CardTitle>
               </div>
+            </CardHeader>
 
+            <CardContent className="space-y-6">
               {/* Surah and Verse Info */}
-              <div className="bg-gradient-to-r from-islamic-primary to-islamic-primary-dark text-white rounded-xl p-4 mb-6 text-center">
+              <div className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground rounded-xl p-4 text-center">
                 <h4 className="text-lg font-semibold mb-1">{quranicVerse.surah}</h4>
                 <p className="text-sm opacity-90">Verse {quranicVerse.verse}</p>
               </div>
 
               {/* Arabic Text */}
-              <div className="mb-6">
-                <p className="text-xl md:text-2xl font-arabic text-right leading-relaxed text-islamic-text-primary">
+              <div>
+                <p className="text-xl md:text-2xl font-arabic text-right leading-relaxed text-foreground">
                   {quranicVerse.arabic}
                 </p>
               </div>
 
               {/* English Translation */}
-              <div className="mb-6">
-                <p className="text-lg leading-relaxed text-islamic-text-secondary italic">
+              <div>
+                <p className="text-lg leading-relaxed text-muted-foreground italic">
                   "{quranicVerse.english}"
                 </p>
               </div>
 
               {/* Reflection */}
-              <div className="bg-gradient-to-r from-islamic-secondary/10 to-islamic-primary/10 rounded-xl p-4 mb-6">
-                <h5 className="font-semibold text-islamic-text-primary mb-2">Reflection</h5>
-                <p className="text-sm text-islamic-text-secondary leading-relaxed">
+              <div className="bg-gradient-to-r from-secondary/10 to-primary/10 rounded-xl p-4">
+                <h5 className="font-semibold text-foreground mb-2">Reflection</h5>
+                <p className="text-sm text-muted-foreground leading-relaxed">
                   {quranicVerse.translation}
                 </p>
               </div>
 
               {/* Action Buttons */}
               <div className="flex gap-3">
-                <button className="flex items-center gap-2 bg-islamic-primary text-white px-4 py-2 rounded-lg hover:bg-islamic-primary-dark transition-colors duration-200">
+                <Button className="flex-1">
                   <span>▶️</span>
                   Listen
-                </button>
-                <button className="flex items-center gap-2 border border-islamic-primary text-islamic-primary px-4 py-2 rounded-lg hover:bg-islamic-primary hover:text-white transition-all duration-200">
+                </Button>
+                <Button variant="outline" className="flex-1">
                   <span>📖</span>
                   Read More
-                </button>
+                </Button>
               </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Bottom Decoration */}
         <div className="mt-16 text-center">
-          <div className="inline-flex items-center gap-2 bg-islamic-primary/10 text-islamic-primary px-6 py-3 rounded-full">
-            <span className="text-sm font-medium">May Allah guide us all to the straight path</span>
-          </div>
+          <Badge variant="outline" className="px-6 py-3 text-base">
+            May Allah guide us all to the straight path
+          </Badge>
         </div>
       </div>
     </section>

@@ -1,12 +1,15 @@
 import React from 'react';
+import { ThemeProvider } from './contexts/ThemeContext';
 import HomePage from './components/HomePage';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <HomePage />
-    </div>
+    <ThemeProvider>
+      <div className="App">
+        <HomePage />
+      </div>
+    </ThemeProvider>
   );
 }
 
