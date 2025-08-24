@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
 import { Badge } from './ui/badge';
 import { 
@@ -7,7 +8,11 @@ import {
   FiNavigation, 
   FiInfo,
   FiMenu,
-  FiX
+  FiX,
+  FiUsers,
+  FiHeart,
+  FiCalendar,
+  FiFileText
 } from 'react-icons/fi';
 
 const Header = () => {
@@ -31,7 +36,7 @@ const Header = () => {
     }`}>
       <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center space-x-3 group">
+        <Link to="/" className="flex items-center space-x-3 group">
           <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center shadow-sm group-hover:shadow-md transition-all duration-300">
             <span className="text-white font-bold text-sm">☪</span>
           </div>
@@ -43,38 +48,45 @@ const Header = () => {
               Platform
             </Badge>
           </div>
-        </div>
+        </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
-          <a href="#prayer-times" className="group relative text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300">
+          <Link to="/prayer-times" className="group relative text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300">
             <span className="flex items-center gap-2">
               <FiClock size={16} />
               Prayer Times
             </span>
             <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></div>
-          </a>
-          <a href="#spiritual-content" className="group relative text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300">
+          </Link>
+          <Link to="/islamic-guide" className="group relative text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300">
             <span className="flex items-center gap-2">
               <FiBook size={16} />
-              Daily Content
+              Islamic Guide
             </span>
             <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></div>
-          </a>
-          <a href="#navigation" className="group relative text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300">
+          </Link>
+          <Link to="/donations" className="group relative text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300">
             <span className="flex items-center gap-2">
-              <FiNavigation size={16} />
-              Resources
+              <FiHeart size={16} />
+              Donations
             </span>
             <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></div>
-          </a>
-          <a href="#about" className="group relative text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300">
+          </Link>
+          <Link to="/opportunities" className="group relative text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300">
             <span className="flex items-center gap-2">
-              <FiInfo size={16} />
-              About
+              <FiUsers size={16} />
+              Volunteer
             </span>
             <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></div>
-          </a>
+          </Link>
+          <Link to="/stories" className="group relative text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300">
+            <span className="flex items-center gap-2">
+              <FiFileText size={16} />
+              Stories
+            </span>
+            <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></div>
+          </Link>
         </nav>
 
         {/* Theme Toggle and Mobile Menu Button */}
@@ -94,11 +106,11 @@ const Header = () => {
 
       {/* Mobile Navigation */}
       <div className={`md:hidden border-t transition-all duration-300 overflow-hidden ${
-        isMenuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'
+        isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
       }`}>
         <div className="container py-4 space-y-2 bg-background/95 backdrop-blur-sm">
-          <a 
-            href="#prayer-times" 
+          <Link 
+            to="/prayer-times" 
             className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-all duration-300 group"
             onClick={() => setIsMenuOpen(false)}
           >
@@ -106,37 +118,47 @@ const Header = () => {
             <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors duration-300">
               Prayer Times
             </span>
-          </a>
-          <a 
-            href="#spiritual-content" 
+          </Link>
+          <Link 
+            to="/islamic-guide" 
             className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-all duration-300 group"
             onClick={() => setIsMenuOpen(false)}
           >
             <FiBook size={18} />
             <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors duration-300">
-              Daily Content
+              Islamic Guide
             </span>
-          </a>
-          <a 
-            href="#navigation" 
+          </Link>
+          <Link 
+            to="/donations" 
             className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-all duration-300 group"
             onClick={() => setIsMenuOpen(false)}
           >
-            <FiNavigation size={18} />
+            <FiHeart size={18} />
             <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors duration-300">
-              Resources
+              Donations
             </span>
-          </a>
-          <a 
-            href="#about" 
+          </Link>
+          <Link 
+            to="/opportunities" 
             className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-all duration-300 group"
             onClick={() => setIsMenuOpen(false)}
           >
-            <FiInfo size={18} />
+            <FiUsers size={18} />
             <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors duration-300">
-              About
+              Volunteer
             </span>
-          </a>
+          </Link>
+          <Link 
+            to="/stories" 
+            className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-all duration-300 group"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            <FiFileText size={18} />
+            <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors duration-300">
+              Stories
+            </span>
+          </Link>
         </div>
       </div>
     </header>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
@@ -19,42 +20,48 @@ const QuickNavigation = () => {
       title: 'Islamic Guide',
       subtitle: 'Learn & Grow',
       description: 'Access comprehensive Islamic knowledge, rulings, and educational resources',
-      color: 'text-primary'
+      color: 'text-primary',
+      link: '/islamic-guide'
     },
     {
       icon: FiHeart,
       title: 'Donations',
       subtitle: 'Give Back',
       description: 'Support charitable causes and contribute to community development',
-      color: 'text-red-500'
+      color: 'text-red-500',
+      link: '/donations'
     },
     {
       icon: FiClock,
       title: 'Prayer Times',
       subtitle: 'Prayer Schedule',
       description: 'Get accurate prayer times for your location with notifications',
-      color: 'text-green-500'
+      color: 'text-green-500',
+      link: '/prayer-times'
     },
     {
       icon: FiCalendar,
       title: 'Calendar',
       subtitle: 'Community Events',
       description: 'Stay updated with Islamic events, classes, and community activities',
-      color: 'text-blue-500'
+      color: 'text-blue-500',
+      link: '/calendar'
     },
     {
       icon: FiUsers,
       title: 'Opportunities',
       subtitle: 'Volunteer',
       description: 'Find volunteer opportunities and ways to serve the community',
-      color: 'text-purple-500'
+      color: 'text-purple-500',
+      link: '/opportunities'
     },
     {
       icon: FiFileText,
       title: 'Stories',
       subtitle: 'Inspiring Stories',
       description: 'Read inspiring stories from the Muslim community worldwide',
-      color: 'text-orange-500'
+      color: 'text-orange-500',
+      link: '/stories'
     }
   ];
 
@@ -76,39 +83,38 @@ const QuickNavigation = () => {
           {navigationItems.map((item, index) => {
             const IconComponent = item.icon;
             return (
-              <Card
-                key={index}
-                className="hover:shadow-md transition-all duration-200 cursor-pointer group"
-              >
-                <CardHeader>
-                  <div className={`w-12 h-12 bg-muted rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200`}>
-                    <IconComponent size={24} className={item.color} />
-                  </div>
-                  <CardTitle className="text-xl group-hover:text-primary transition-colors duration-200">
-                    {item.title}
-                  </CardTitle>
-                </CardHeader>
-
-                <CardContent className="space-y-4">
-                  <Badge variant="outline" className={`${item.color} border-current`}>
-                    {item.subtitle}
-                  </Badge>
-                  
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {item.description}
-                  </p>
-
-                  {/* Arrow indicator */}
-                  <div className="flex items-center justify-between pt-2">
-                    <span className="text-xs text-muted-foreground font-medium">
-                      Click to explore
-                    </span>
-                    <div className={`${item.color} group-hover:translate-x-1 transition-transform duration-200`}>
-                      <FiArrowRight size={18} />
+              <Link key={index} to={item.link}>
+                <Card className="hover:shadow-md transition-all duration-200 cursor-pointer group">
+                  <CardHeader>
+                    <div className={`w-12 h-12 bg-muted rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200`}>
+                      <IconComponent size={24} className={item.color} />
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
+                    <CardTitle className="text-xl group-hover:text-primary transition-colors duration-200">
+                      {item.title}
+                    </CardTitle>
+                  </CardHeader>
+
+                  <CardContent className="space-y-4">
+                    <Badge variant="outline" className={`${item.color} border-current`}>
+                      {item.subtitle}
+                    </Badge>
+                    
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {item.description}
+                    </p>
+
+                    {/* Arrow indicator */}
+                    <div className="flex items-center justify-between pt-2">
+                      <span className="text-xs text-muted-foreground font-medium">
+                        Click to explore
+                      </span>
+                      <div className={`${item.color} group-hover:translate-x-1 transition-transform duration-200`}>
+                        <FiArrowRight size={18} />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
             );
           })}
         </div>
