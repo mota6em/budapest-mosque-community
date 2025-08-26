@@ -23,7 +23,7 @@ import OpportunitiesListPage from './pages/OpportunitiesListPage';
 import OpportunityDetailPage from './pages/OpportunityDetailPage';
 
 // Jumaa Sermons Page (replaces Stories)
-import StoriesListPage from './pages/StoriesListPage';
+import SermonsListPage from './pages/SermonsListPage';
 import SermonDetailPage from './pages/SermonDetailPage';
 
 import './App.css';
@@ -57,7 +57,7 @@ function App() {
             <Route path="/opportunities/:id" element={<OpportunityDetailPage />} />
             
             {/* Jumaa Sermons Routes */}
-            <Route path="/sermons" element={<StoriesListPage />} />
+            <Route path="/sermons" element={<SermonsListPage />} />
             <Route path="/sermons/:id" element={<SermonDetailPage />} />
           </Routes>
         </div>
