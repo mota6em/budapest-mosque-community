@@ -11,14 +11,32 @@ const PrayerTimesPage = () => {
   const [zipCode, setZipCode] = useState('');
   const [error, setError] = useState('');
   const [showSelector, setShowSelector] = useState(false);
+  const [selectedCity, setSelectedCity] = useState('Budapest');
   const mosques = useMemo(() => ([
     { name: 'Budapest Mosque', city: 'Budapest', url: 'https://mawaqit.net/en/m/budapest' },
-    { name: 'Masjid Al Noor', city: 'Budapest', url: 'https://mawaqit.net/en/m/masjid-al-noor-budapest-1071-hungary' },
-    { name: 'Al-Huda Mosque', city: 'Budapest', url: 'https://mawaqit.net/en/m/al-huda-mecset-budapest-1081-hungary' },
+    { name: 'Al Noor Mosque', city: 'Budapest', url: 'https://mawaqit.net/en/m/masjid-al-noor-budapest-1071-hungary' },
+    { name: 'Al-Huda Mosque', city: 'Budapest', url: 'https://mawaqit.net/en/huda-budapest' },
     { name: 'Al-Taqwa Mosque', city: 'Budapest', url: 'https://mawaqit.net/en/m/al-taqwa-mecset-budapest-1082-hungary' },
     { name: 'Jakovali Hassan Paşa Mosque', city: 'Pécs', url: 'https://mawaqit.net/en/m/jakovali-hassan-pasa-mosque-pecs-7623-hungary' },
-    { name: 'Szeged Mosque', city: 'Szeged', url: 'https://mawaqit.net/en/m/szeged-mosque-6722-hungary' }
-  ]), []);
+    { name: 'Szeged Mosque', city: 'Szeged', url: 'https://mawaqit.net/en/m/szeged-mosque-6722-hungary' },
+    { name: 'Darusszalam Mosque', city: 'Budapest', url: 'https://mawaqit.net/en/-3' },
+     { name: 'Tauhid Mosque', city: 'Budapest', url: 'https://mawaqit.net/en/-4' },
+    { name: 'Al-Forqan Mosque', city: 'Pécs', url: 'https://mawaqit.net/en/masjid-lforqan-pecs-7621-hungary-1' },
+     { name: 'Debrecen Timings', city: 'Debrecen', url: 'https://mawaqit.net/en/debrecen-timings-debrecen-4032-hungary' }
+  ]), []); 
+
+  const cities = useMemo(() => Array.from(new Set(mosques.map(m => m.city))), [mosques]);
+
+  const filteredMosques = useMemo(() => mosques.filter(m => m.city === selectedCity), [mosques, selectedCity]);
+
+  // Ensure selected mosque is within the chosen city
+  React.useEffect(() => {
+    if (!filteredMosques.some(m => m.url === selectedMosqueUrl)) {
+      const first = filteredMosques[0] || mosques[0];
+      if (first) setSelectedMosqueUrl(first.url);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCity]);
 
   const handleZipLookup = async () => {
     if (!countryCode || !zipCode) return;
@@ -59,29 +77,31 @@ const PrayerTimesPage = () => {
               <CardTitle className="text-xl">Select Mosque</CardTitle>
             </CardHeader>
             <CardContent className="px-6 pb-6">
-              <label className="text-sm text-muted-foreground mb-2 block">Choose a mosque to view its Mawaqit timetable</label>
-              <select
-                className="w-full px-3 py-2 border border-border rounded-md bg-background"
-                value={selectedMosqueUrl}
-                onChange={(e) => { setSelectedMosqueUrl(e.target.value); setMawaqitError(false); }}
-              >
-                {mosques.map((m) => (
-                  <option key={m.url} value={m.url}>{m.name} – {m.city}</option>
-                ))}
-              </select>
-              <div className="mt-3 text-xs text-muted-foreground">Tip: Use the quick picks below.</div>
-              <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
-                {mosques.slice(0, 5).map((m) => (
-                  <Button
-                    key={m.url}
-                    variant={selectedMosqueUrl === m.url ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => { setSelectedMosqueUrl(m.url); setMawaqitError(false); }}
-                    className="whitespace-nowrap"
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm text-muted-foreground mb-2 block">City</label>
+                  <select
+                    className="w-full px-3 py-2 border border-border rounded-md bg-background"
+                    value={selectedCity}
+                    onChange={(e) => setSelectedCity(e.target.value)}
                   >
-                    {m.name}
-                  </Button>
-                ))}
+                    {cities.map((c) => (
+                      <option key={c} value={c}>{c}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="text-sm text-muted-foreground mb-2 block">Mosque</label>
+                  <select
+                    className="w-full px-3 py-2 border border-border rounded-md bg-background"
+                    value={selectedMosqueUrl}
+                    onChange={(e) => { setSelectedMosqueUrl(e.target.value); setMawaqitError(false); }}
+                  >
+                    {filteredMosques.map((m) => (
+                      <option key={m.url} value={m.url}>{m.name}</option>
+                    ))}
+                  </select>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -121,6 +141,7 @@ const PrayerTimesPage = () => {
               >
                 Click here to open Mawaqit
               </a>
+              <div className="mt-2 text-xs">© Mawaqit</div>
             </div>
           </CardContent>
         </Card>
