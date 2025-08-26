@@ -22,9 +22,9 @@ import CalendarPage from './pages/CalendarPage';
 import OpportunitiesListPage from './pages/OpportunitiesListPage';
 import OpportunityDetailPage from './pages/OpportunityDetailPage';
 
-// Stories & Blogs Pages
+// Jumaa Sermons Page (replaces Stories)
 import StoriesListPage from './pages/StoriesListPage';
-import StoryDetailPage from './pages/StoryDetailPage';
+import SermonDetailPage from './pages/SermonDetailPage';
 
 import './App.css';
 
@@ -56,9 +56,9 @@ function App() {
             <Route path="/opportunities" element={<OpportunitiesListPage />} />
             <Route path="/opportunities/:id" element={<OpportunityDetailPage />} />
             
-            {/* Stories & Blogs Routes */}
-            <Route path="/stories" element={<StoriesListPage />} />
-            <Route path="/stories/:id" element={<StoryDetailPage />} />
+            {/* Jumaa Sermons Routes */}
+            <Route path="/sermons" element={<StoriesListPage />} />
+            <Route path="/sermons/:id" element={<SermonDetailPage />} />
           </Routes>
         </div>
       </Router>

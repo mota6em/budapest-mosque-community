@@ -57,11 +57,11 @@ const QuickNavigation = () => {
     },
     {
       icon: FiFileText,
-      title: 'Stories',
-      subtitle: 'Inspiring Stories',
-      description: 'Read inspiring stories from the Muslim community worldwide',
+      title: 'Jumaa Sermons',
+      subtitle: 'Khutbah Archive',
+      description: 'Watch weekly Friday khutbahs with details and descriptions',
       color: 'text-orange-500',
-      link: '/stories'
+      link: '/sermons'
     }
   ];
 
