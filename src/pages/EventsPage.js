@@ -123,12 +123,12 @@ const EventsPage = () => {
                     eventClassNames="cursor-pointer hover:opacity-80 transition-opacity"
                     dayCellClassNames="hover:bg-accent/50 transition-colors"
                     eventContent={(arg) => (
-                      <div className="p-1">
+                      <div className="p-1 overflow-hidden">
                         <div className="text-xs font-medium truncate">
                           {arg.event.title}
                         </div>
                         {arg.event.extendedProps.needsVolunteers && (
-                          <div className="text-xs text-orange-200">
+                          <div className="text-xs text-orange-200 truncate">
                             Volunteers Needed
                           </div>
                         )}
