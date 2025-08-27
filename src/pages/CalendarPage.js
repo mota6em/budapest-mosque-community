@@ -384,10 +384,85 @@ const CalendarPage = () => {
                     <CardTitle className="text-xl">Quick Actions</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
-                    <Button variant="outline" className="w-full">
-                      <FiCalendar size={16} className="mr-2" />
-                      Add to Calendar
-                    </Button>
+                                         <Button 
+                       variant="outline" 
+                       className="w-full"
+                       onClick={() => {
+                         // Get current month's events
+                         const currentDate = new Date();
+                         const currentMonth = currentDate.getMonth();
+                         const currentYear = currentDate.getFullYear();
+                         
+                         const thisMonthEvents = filteredEvents.filter(event => {
+                           const eventDate = new Date(event.date);
+                           return eventDate.getMonth() === currentMonth && 
+                                  eventDate.getFullYear() === currentYear;
+                         });
+                         
+                         if (thisMonthEvents.length === 0) {
+                           alert('No events found for this month');
+                           return;
+                         }
+                         
+                         // Create .ics file content for all events
+                         const formatDateForICS = (date) => {
+                           return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+                         };
+                         
+                         const createEventICS = (event) => {
+                           // Parse time properly (convert 12-hour format to 24-hour)
+                           const timeStr = event.time;
+                           let hours = parseInt(timeStr.split(':')[0]);
+                           const minutes = parseInt(timeStr.split(':')[1].split(' ')[0]);
+                           const period = timeStr.includes('PM') ? 'PM' : 'AM';
+                           
+                           if (period === 'PM' && hours !== 12) {
+                             hours += 12;
+                           } else if (period === 'AM' && hours === 12) {
+                             hours = 0;
+                           }
+                           
+                           const startDate = new Date(event.date);
+                           startDate.setHours(hours, minutes, 0, 0);
+                           
+                           const endDate = new Date(startDate.getTime() + (2 * 60 * 60 * 1000)); // 2 hours later
+                           
+                           return [
+                             'BEGIN:VEVENT',
+                             `DTSTART:${formatDateForICS(startDate)}`,
+                             `DTEND:${formatDateForICS(endDate)}`,
+                             `SUMMARY:${event.title}`,
+                             `DESCRIPTION:${event.description}`,
+                             `LOCATION:${event.location}`,
+                             'END:VEVENT'
+                           ].join('\r\n');
+                         };
+                         
+                         const icsContent = [
+                           'BEGIN:VCALENDAR',
+                           'VERSION:2.0',
+                           'PRODID:-//hacksw/handcal//NONSGML v1.0//EN',
+                           ...thisMonthEvents.map(createEventICS),
+                           'END:VCALENDAR'
+                         ].join('\r\n');
+                         
+                         // Create and download .ics file
+                         const blob = new Blob([icsContent], { type: 'text/calendar' });
+                         const url = window.URL.createObjectURL(blob);
+                         const link = document.createElement('a');
+                         link.href = url;
+                         const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                                           'July', 'August', 'September', 'October', 'November', 'December'];
+                         link.download = `islamic_events_${monthNames[currentMonth]}_${currentYear}.ics`;
+                         document.body.appendChild(link);
+                         link.click();
+                         document.body.removeChild(link);
+                         window.URL.revokeObjectURL(url);
+                       }}
+                     >
+                       <FiCalendar size={16} className="mr-2" />
+                       Add all {new Date().toLocaleString('en-US', { month: 'long' })} events to your calendar
+                     </Button>
                     <Button variant="outline" className="w-full">
                       <FiUsers size={16} className="mr-2" />
                       Subscribe to Updates
