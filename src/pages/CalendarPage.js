@@ -260,6 +260,7 @@ const CalendarPage = () => {
                   <CardContent>
                     <div className="space-y-4">
                       {filteredEvents
+                        .filter(event => new Date(event.date) >= new Date())
                         .sort((a, b) => new Date(a.date) - new Date(b.date))
                         .slice(0, 5)
                         .map(event => (
