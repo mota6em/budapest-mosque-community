@@ -18,9 +18,8 @@ import DonationDetailPage from './pages/DonationDetailPage';
 // Calendar Pages
 import CalendarPage from './pages/CalendarPage';
 
-// Volunteer Opportunities Pages
-import OpportunitiesListPage from './pages/OpportunitiesListPage';
-import OpportunityDetailPage from './pages/OpportunityDetailPage';
+// Events Pages
+import EventsPage from './pages/EventsPage';
 
 // Jumaa Sermons Page (replaces Stories)
 import SermonsListPage from './pages/SermonsListPage';
@@ -52,9 +51,8 @@ function App() {
             {/* Calendar Routes */}
             <Route path="/calendar" element={<CalendarPage />} />
             
-            {/* Volunteer Opportunities Routes */}
-            <Route path="/opportunities" element={<OpportunitiesListPage />} />
-            <Route path="/opportunities/:id" element={<OpportunityDetailPage />} />
+            {/* Events Routes */}
+            <Route path="/events" element={<EventsPage />} />
             
             {/* Jumaa Sermons Routes */}
             <Route path="/sermons" element={<SermonsListPage />} />

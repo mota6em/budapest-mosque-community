@@ -48,12 +48,12 @@ const QuickNavigation = () => {
       link: '/calendar'
     },
     {
-      icon: FiUsers,
-      title: 'Opportunities',
-      subtitle: 'Volunteer',
-      description: 'Find volunteer opportunities and ways to serve the community',
+      icon: FiCalendar,
+      title: 'Events',
+      subtitle: 'Community',
+      description: 'Discover and participate in Islamic events, educational programs, and community activities',
       color: 'text-purple-500',
-      link: '/opportunities'
+      link: '/events'
     },
     {
       icon: FiFileText,

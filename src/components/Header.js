@@ -73,10 +73,10 @@ const Header = () => {
             </span>
             <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></div>
           </Link>
-          <Link to="/opportunities" className="group relative text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300">
+          <Link to="/events" className="group relative text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300">
             <span className="flex items-center gap-2">
-              <FiUsers size={16} />
-              Volunteer
+              <FiCalendar size={16} />
+              Events
             </span>
             <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></div>
           </Link>
@@ -140,13 +140,13 @@ const Header = () => {
             </span>
           </Link>
           <Link 
-            to="/opportunities" 
+            to="/events" 
             className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-all duration-300 group"
             onClick={() => setIsMenuOpen(false)}
           >
-            <FiUsers size={18} />
+            <FiCalendar size={18} />
             <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors duration-300">
-              Volunteer
+              Events
             </span>
           </Link>
           <Link 

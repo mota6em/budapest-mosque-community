@@ -34,7 +34,7 @@ A stunning, modern Islamic community platform homepage/dashboard built with **Re
 
 ### 🧭 **Quick Navigation**
 - 6 main platform sections with intuitive icons
-- Islamic Guide, Donations, Prayer Times, Calendar, Opportunities, Stories
+- Islamic Guide, Donations, Prayer Times, Calendar, Events, Stories
 - **DaisyUI glass morphism** effects on navigation cards
 - Hover effects and smooth animations
 - Call-to-action for community engagement
