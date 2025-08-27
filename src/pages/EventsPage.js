@@ -204,10 +204,7 @@ const EventsPage = () => {
                         <FiMapPin size={16} className="text-muted-foreground" />
                         <span>{selectedEvent.location}</span>
                       </div>
-                      <div className="flex items-center gap-3 text-sm">
-                        <FiUsers size={16} className="text-muted-foreground" />
-                        <span>{selectedEvent.attendees} attendees</span>
-                      </div>
+                      
                     </div>
 
                     {/* Volunteer Section */}
@@ -238,14 +235,72 @@ const EventsPage = () => {
 
                     {/* Action Buttons */}
                     <div className="flex gap-2 mt-4">
-                      <Button variant="outline" size="icon">
-                        <FiHeart size={16} />
-                      </Button>
-                      <Button variant="outline" size="icon">
+                      <Button 
+                        variant="outline" 
+                        size="icon"
+                        onClick={() => {
+                          const url = window.location.href;
+                          navigator.clipboard.writeText(url);
+                          // You could add a toast notification here
+                        }}
+                        title="Share event link"
+                      >
                         <FiShare2 size={16} />
                       </Button>
-                      <Button className="flex-1">
-                        Add to Calendar
+                      <Button 
+                        className="flex-1"
+                        onClick={() => {
+                          const event = selectedEvent;
+                          
+                          // Parse time properly (convert 12-hour format to 24-hour)
+                          const timeStr = event.time;
+                          let hours = parseInt(timeStr.split(':')[0]);
+                          const minutes = parseInt(timeStr.split(':')[1].split(' ')[0]);
+                          const period = timeStr.includes('PM') ? 'PM' : 'AM';
+                          
+                          if (period === 'PM' && hours !== 12) {
+                            hours += 12;
+                          } else if (period === 'AM' && hours === 12) {
+                            hours = 0;
+                          }
+                          
+                          const startDate = new Date(event.date);
+                          startDate.setHours(hours, minutes, 0, 0);
+                          
+                          const endDate = new Date(startDate.getTime() + (2 * 60 * 60 * 1000)); // 2 hours later
+                          
+                          // Create .ics file content
+                          const formatDateForICS = (date) => {
+                            return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+                          };
+                          
+                          const icsContent = [
+                            'BEGIN:VCALENDAR',
+                            'VERSION:2.0',
+                            'PRODID:-//hacksw/handcal//NONSGML v1.0//EN',
+                            'BEGIN:VEVENT',
+                            `DTSTART:${formatDateForICS(startDate)}`,
+                            `DTEND:${formatDateForICS(endDate)}`,
+                            `SUMMARY:${event.title}`,
+                            `DESCRIPTION:${event.description}`,
+                            `LOCATION:${event.location}`,
+                            'END:VEVENT',
+                            'END:VCALENDAR'
+                          ].join('\r\n');
+                          
+                          // Create and download .ics file
+                          const blob = new Blob([icsContent], { type: 'text/calendar' });
+                          const url = window.URL.createObjectURL(blob);
+                          const link = document.createElement('a');
+                          link.href = url;
+                          link.download = `${event.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.ics`;
+                          document.body.appendChild(link);
+                          link.click();
+                          document.body.removeChild(link);
+                          window.URL.revokeObjectURL(url);
+                        }}
+                      >
+                        Save to Calendar
                       </Button>
                     </div>
                   </div>
