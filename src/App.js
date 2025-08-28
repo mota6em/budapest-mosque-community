@@ -37,6 +37,10 @@ import AdminSettingsPage from "./pages/AdminSettingsPage";
 import AdminLayout from "./components/AdminLayout";
 import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 
+// Jumaa Sermons Page (replaces Stories)
+import SermonsListPage from './pages/SermonsListPage';
+import SermonDetailPage from './pages/SermonDetailPage';
+
 import "./App.css";
 
 function App() {
@@ -48,7 +52,7 @@ function App() {
             <Routes>
               {/* Home Page */}
               <Route path="/" element={<HomePage />} />
-
+              
               {/* Islamic Guide Routes */}
               <Route path="/islamic-guide" element={<IslamicGuide />} />
               <Route path="/hadith" element={<HadithPage />} />
@@ -56,23 +60,21 @@ function App() {
               <Route path="/prayer-times" element={<PrayerTimesPage />} />
               <Route path="/fasting-tips" element={<FastingTipsPage />} />
               <Route path="/islam-101" element={<Islam101Page />} />
-
+              
               {/* Donations Routes */}
               <Route path="/donations" element={<DonationsListPage />} />
               <Route path="/donations/:id" element={<DonationDetailPage />} />
-
+              
               {/* Calendar Routes */}
               <Route path="/calendar" element={<CalendarPage />} />
-
+              
               {/* Volunteer Opportunities Routes */}
-              <Route
-                path="/opportunities"
-                element={<OpportunitiesListPage />}
-              />
-              <Route
-                path="/opportunities/:id"
-                element={<OpportunityDetailPage />}
-              />
+              <Route path="/opportunities" element={<OpportunitiesListPage />} />
+              <Route path="/opportunities/:id" element={<OpportunityDetailPage />} />
+              
+              {/* Jumaa Sermons Routes */}
+              <Route path="/sermons" element={<SermonsListPage />} />
+              <Route path="/sermons/:id" element={<SermonDetailPage />} />
 
               {/* Stories & Blogs Routes */}
               <Route path="/stories" element={<StoriesListPage />} />
