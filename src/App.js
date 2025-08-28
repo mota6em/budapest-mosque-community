@@ -25,7 +25,7 @@ import OpportunityDetailPage from "./pages/OpportunityDetailPage";
 
 // Stories & Blogs Pages
 import StoriesListPage from "./pages/StoriesListPage";
-import StoryDetailPage from "./pages/StoryDetailPage";
+// import StoryDetailPage from "./pages/StoryDetailPage";
 
 // Admin Pages
 import AdminLoginPage from "./pages/AdminLoginPage";
@@ -78,7 +78,7 @@ function App() {
 
               {/* Stories & Blogs Routes */}
               <Route path="/stories" element={<StoriesListPage />} />
-              <Route path="/stories/:id" element={<StoryDetailPage />} />
+              {/* <Route path="/stories/:id" element={<StoryDetailPage />} /> */}
 
               {/* Admin Routes */}
               <Route path="/admin/login" element={<AdminLoginPage />} />
