@@ -19,13 +19,9 @@ import DonationDetailPage from "./pages/DonationDetailPage";
 // Calendar Pages
 import CalendarPage from "./pages/CalendarPage";
 
-// Volunteer Opportunities Pages
-import OpportunitiesListPage from "./pages/OpportunitiesListPage";
-import OpportunityDetailPage from "./pages/OpportunityDetailPage";
 
-// Stories & Blogs Pages
-import StoriesListPage from "./pages/StoriesListPage";
-// import StoryDetailPage from "./pages/StoryDetailPage";
+// Events Pages
+import EventsPage from './pages/EventsPage';
 
 // Admin Pages
 import AdminLoginPage from "./pages/AdminLoginPage";

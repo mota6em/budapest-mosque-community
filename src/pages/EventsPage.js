@@ -18,7 +18,7 @@ import {
   getFullCalendarEvents
 } from '../data/events';
 
-const CalendarPage = () => {
+const EventsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -65,10 +65,11 @@ const CalendarPage = () => {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Events Calendar
+            Community Events
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             View all community events in an interactive calendar. Click on any date or event to see details.
+            Many events need volunteers - join us in serving the community.
           </p>
         </div>
 
@@ -95,7 +96,7 @@ const CalendarPage = () => {
           <div className="lg:col-span-2">
             <Card>
               <CardHeader>
-                <CardTitle className="text-xl">Calendar</CardTitle>
+                <CardTitle className="text-xl">Events Calendar</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="fullcalendar-container">
@@ -578,4 +579,4 @@ const CalendarPage = () => {
   );
 };
 
-export default CalendarPage;
+export default EventsPage;
