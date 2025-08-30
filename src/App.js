@@ -16,9 +16,6 @@ import Islam101Page from "./pages/Islam101Page";
 import DonationsListPage from "./pages/DonationsListPage";
 import DonationDetailPage from "./pages/DonationDetailPage";
 
-// Calendar Pages
-import CalendarPage from "./pages/CalendarPage";
-
 
 // Events Pages
 import EventsPage from './pages/EventsPage';
@@ -61,20 +58,14 @@ function App() {
               <Route path="/donations" element={<DonationsListPage />} />
               <Route path="/donations/:id" element={<DonationDetailPage />} />
               
-              {/* Calendar Routes */}
-              <Route path="/calendar" element={<CalendarPage />} />
-              
-              {/* Volunteer Opportunities Routes */}
-              <Route path="/opportunities" element={<OpportunitiesListPage />} />
-              <Route path="/opportunities/:id" element={<OpportunityDetailPage />} />
+              {/* Events Routes */}
+              <Route path="/events" element={<EventsPage />} />
               
               {/* Jumaa Sermons Routes */}
               <Route path="/sermons" element={<SermonsListPage />} />
               <Route path="/sermons/:id" element={<SermonDetailPage />} />
 
-              {/* Stories & Blogs Routes */}
-              <Route path="/stories" element={<StoriesListPage />} />
-              {/* <Route path="/stories/:id" element={<StoryDetailPage />} /> */}
+ 
 
               {/* Admin Routes */}
               <Route path="/admin/login" element={<AdminLoginPage />} />
