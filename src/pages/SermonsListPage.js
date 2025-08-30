@@ -1,17 +1,18 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import Header from '../components/Header';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Button } from '../components/ui/button';
 import { Link } from 'react-router-dom';
 import { getYouTubeThumbnail, getYouTubeVideoId } from '../lib/utils';
-import { FiCalendar, FiUser, FiYoutube, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
-import { sermons as allSermons } from '../data/sermons';
+import { FiCalendar, FiUser, FiYoutube, FiChevronLeft, FiChevronRight, FiRefreshCw } from 'react-icons/fi';
+import { db } from '../lib/supabase';
 
 const SermonCard = ({ sermon }) => {
   const thumb = useMemo(() => getYouTubeThumbnail(sermon.link, 'hqdefault'), [sermon.link]);
   const videoId = useMemo(() => getYouTubeVideoId(sermon.link), [sermon.link]);
   const [isPlaying, setIsPlaying] = useState(false);
+  
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
       <div className="relative h-44 bg-muted">
@@ -42,14 +43,20 @@ const SermonCard = ({ sermon }) => {
       </div>
       <CardContent className="p-5">
         <div className="flex items-center gap-2 mb-2">
-          <Badge variant="secondary">{sermon.language}</Badge>
-          <Badge variant="outline">Imam: {sermon.imam}</Badge>
+          <Badge variant="secondary">{sermon.language || 'English'}</Badge>
+          <Badge variant="outline">Imam: {sermon.imam || 'Unknown'}</Badge>
         </div>
         <h3 className="text-lg font-bold text-foreground mb-2 line-clamp-2">{sermon.title}</h3>
         <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{sermon.description}</p>
         <div className="flex items-center gap-4 text-sm text-muted-foreground">
-          <div className="flex items-center gap-1"><FiCalendar size={14} /><span>{new Date(sermon.date).toLocaleDateString()}</span></div>
-          <div className="flex items-center gap-1"><FiUser size={14} /><span>{sermon.imam}</span></div>
+          <div className="flex items-center gap-1">
+            <FiCalendar size={14} />
+            <span>{sermon.date ? new Date(sermon.date).toLocaleDateString() : 'Date not set'}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <FiUser size={14} />
+            <span>{sermon.imam || 'Unknown'}</span>
+          </div>
         </div>
       </CardContent>
     </Card>
@@ -59,8 +66,42 @@ const SermonCard = ({ sermon }) => {
 const SermonsListPage = () => {
   const [language, setLanguage] = useState('All');
   const [page, setPage] = useState(1);
+  const [sermons, setSermons] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const pageSize = 6;
-  const sermons = allSermons;
+
+  // Load sermons from database
+  const loadSermons = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const { data, error: dbError } = await db.query("joumaa");
+      
+      if (dbError) {
+        console.error('Error loading sermons:', dbError);
+        setError('Failed to load sermons. Please try again.');
+        setSermons([]);
+      } else {
+        // Sort by date descending (newest first)
+        const sortedSermons = (data || []).sort((a, b) => 
+          new Date(b.date) - new Date(a.date)
+        );
+        setSermons(sortedSermons);
+      }
+    } catch (err) {
+      console.error('Unexpected error:', err);
+      setError('An unexpected error occurred. Please try again.');
+      setSermons([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadSermons();
+  }, []);
 
   const filtered = useMemo(() => {
     if (language === 'All') return sermons;
@@ -75,6 +116,64 @@ const SermonsListPage = () => {
   const start = (currentPage - 1) * pageSize;
   const end = start + pageSize;
   const rest = restAll.slice(start, end);
+
+  // Reset to first page when language changes
+  useEffect(() => {
+    setPage(1);
+  }, [language]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="container mx-auto px-6 py-8">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading sermons...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="container mx-auto px-6 py-8">
+          <div className="text-center">
+            <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-6 max-w-md mx-auto mb-6">
+              <p className="text-destructive mb-4">{error}</p>
+              <Button onClick={loadSermons} className="flex items-center gap-2 mx-auto">
+                <FiRefreshCw size={16} />
+                Try Again
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (sermons.length === 0) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="container mx-auto px-6 py-8">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-3">Jumaa Sermons</h1>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
+              No sermons available at the moment. Please check back later.
+            </p>
+            <Button onClick={loadSermons} className="flex items-center gap-2 mx-auto">
+              <FiRefreshCw size={16} />
+              Refresh
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -113,14 +212,20 @@ const SermonsListPage = () => {
               </div>
               <div className="p-6">
                 <div className="flex items-center gap-2 mb-3">
-                  <Badge variant="secondary">{featured.language}</Badge>
-                  <Badge variant="outline">Imam: {featured.imam}</Badge>
+                  <Badge variant="secondary">{featured.language || 'English'}</Badge>
+                  <Badge variant="outline">Imam: {featured.imam || 'Unknown'}</Badge>
                 </div>
                 <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">{featured.title}</h2>
                 <p className="text-muted-foreground mb-4 leading-relaxed">{featured.description}</p>
                 <div className="flex items-center gap-4 text-sm text-muted-foreground mb-6">
-                  <div className="flex items-center gap-1"><FiCalendar size={14} /><span>{new Date(featured.date).toLocaleDateString()}</span></div>
-                  <div className="flex items-center gap-1"><FiUser size={14} /><span>{featured.imam}</span></div>
+                  <div className="flex items-center gap-1">
+                    <FiCalendar size={14} />
+                    <span>{featured.date ? new Date(featured.date).toLocaleDateString() : 'Date not set'}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <FiUser size={14} />
+                    <span>{featured.imam || 'Unknown'}</span>
+                  </div>
                 </div>
                 <Link to={`/sermons/${featured.id}`}>
                   <Button className="bg-red-600 hover:bg-red-700 text-white flex items-center gap-2">
