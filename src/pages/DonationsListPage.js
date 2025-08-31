@@ -122,7 +122,7 @@ const DonationsListPage = () => {
           <div className="text-center mb-8">
             <div className="flex justify-center items-center gap-3 mb-3">
               <Moon className="w-8 h-8 text-primary" />
-              <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              <h1 className="text-4xl md:text-5xl font-extrabold">
                 Support Our Community
               </h1>
               <Star className="w-8 h-8 text-primary" />
