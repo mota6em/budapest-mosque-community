@@ -1,262 +1,223 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import Header from '../components/Header';
-import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
-import { Badge } from '../components/ui/badge';
-import { Button } from '../components/ui/button';
-import { FiSearch, FiFilter, FiHeart, FiMapPin, FiUsers, FiArrowRight } from 'react-icons/fi';
+import React, { useState } from "react";
+import Header from "../components/Header";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import { Textarea } from "../components/ui/textarea";
+import { useToast } from "../hooks/use-toast";
+import { supabase } from "../integrations/supabase/client";
+import { Heart, Moon, Star } from "lucide-react";
 
 const DonationsListPage = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
-
-  // Mock donations data
-  const donationsData = [
-    {
-      id: 1,
-      title: "Ramadan Food Drive",
-      organization: "Islamic Relief USA",
-      description: "Help provide food packages to families in need during the holy month of Ramadan. Each package contains essential food items for a family of four.",
-      category: "Food",
-      location: "New York, NY",
-      goal: 50000,
-      raised: 35000,
-      donors: 245,
-      image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop",
-      urgency: "High",
-      endDate: "2024-04-15"
-    },
-    {
-      id: 2,
-      title: "Mosque Construction Project",
-      organization: "Community Islamic Center",
-      description: "Support the construction of a new mosque and community center that will serve over 500 families in the local area.",
-      category: "Infrastructure",
-      location: "Chicago, IL",
-      goal: 200000,
-      raised: 125000,
-      donors: 189,
-      image: "https://images.unsplash.com/photo-1542810634-71277d95dcbb?w=400&h=300&fit=crop",
-      urgency: "Medium",
-      endDate: "2024-12-31"
-    },
-    {
-      id: 3,
-      title: "Orphan Education Fund",
-      organization: "Muslim Children's Foundation",
-      description: "Provide education, healthcare, and basic needs for orphaned children in developing countries. Help give them a brighter future.",
-      category: "Education",
-      location: "International",
-      goal: 75000,
-      raised: 52000,
-      donors: 312,
-      image: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=400&h=300&fit=crop",
-      urgency: "High",
-      endDate: "2024-06-30"
-    },
-    {
-      id: 4,
-      title: "Medical Clinic for Refugees",
-      organization: "Humanitarian Aid Network",
-      description: "Establish a medical clinic to provide healthcare services to refugee families who have fled conflict zones.",
-      category: "Healthcare",
-      location: "Syria",
-      goal: 100000,
-      raised: 78000,
-      donors: 156,
-      image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=300&fit=crop",
-      urgency: "Critical",
-      endDate: "2024-03-31"
-    },
-    {
-      id: 5,
-      title: "Islamic School Scholarship Fund",
-      organization: "Islamic Education Trust",
-      description: "Provide scholarships for students to attend Islamic schools and receive quality education with Islamic values.",
-      category: "Education",
-      location: "Los Angeles, CA",
-      goal: 30000,
-      raised: 18000,
-      donors: 98,
-      image: "https://images.unsplash.com/photo-1523050854058-8df90110c9e1?w=400&h=300&fit=crop",
-      urgency: "Medium",
-      endDate: "2024-08-15"
-    },
-    {
-      id: 6,
-      title: "Clean Water Project",
-      organization: "Water for Life",
-      description: "Install water wells and purification systems in rural communities to provide clean drinking water.",
-      category: "Infrastructure",
-      location: "Somalia",
-      goal: 45000,
-      raised: 32000,
-      donors: 203,
-      image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&h=300&fit=crop",
-      urgency: "High",
-      endDate: "2024-05-20"
-    }
-  ];
-
-  const categories = ['all', 'Food', 'Education', 'Healthcare', 'Infrastructure', 'Emergency'];
-
-  const filteredDonations = donationsData.filter(donation => {
-    const matchesSearch = donation.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         donation.organization.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         donation.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'all' || donation.category === selectedCategory;
-    return matchesSearch && matchesCategory;
+  const [formData, setFormData] = useState({
+    donorName: "",
+    donorEmail: "",
+    amount: "",
+    tagNote: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
-  const getUrgencyColor = (urgency) => {
-    switch (urgency) {
-      case 'Critical': return 'bg-red-500 text-white';
-      case 'High': return 'bg-orange-500 text-white';
-      case 'Medium': return 'bg-yellow-500 text-black';
-      default: return 'bg-green-500 text-white';
-    }
+  // PRESET amounts
+  const predefinedAmounts = [25, 50, 100, 250, 500];
+
+  // STRIPE payment links 
+  const stripeLinks = {
+    25: "https://buy.stripe.com/test_9B614g3xY6y8bA223PafS02",
+    50: "https://buy.stripe.com/test_9B6eV6d8yaOo8nQeQBafS03",
+    100: "https://buy.stripe.com/test_cNi6oA5G61dO6fI4bXafS04",
+    250: "https://buy.stripe.com/test_9B600cecC8Gg1Zs4bXafS05",
+    500: "https://buy.stripe.com/test_aFa28k5G6g8I1ZsgYJafS06",
   };
 
-  const calculateProgress = (raised, goal) => {
-    return Math.min((raised / goal) * 100, 100);
+  const handleAmountSelect = (amount) => {
+    setFormData((prev) => ({ ...prev, amount: amount.toString() }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!formData.amount || Number(formData.amount) <= 0) {
+      toast({
+        title: "Invalid Amount",
+        description: "Please enter a valid donation amount",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+    
+      await supabase.from("donation").insert({
+        amount: Number(formData.amount),
+        name: formData.donorName || "Anonymous",
+        contact: formData.donorEmail || null,
+        description: formData.tagNote || null,
+        type: "General",
+      });
+
+      const link = stripeLinks[formData.amount];
+      if (link) {
+        window.location.href = link;
+      } else {
+        toast({
+          title: "Custom Amount Not Supported",
+          description: "Please select one of the preset donation amounts.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen relative overflow-hidden bg-background">
       <Header />
-      
-      <div className="container mx-auto px-6 py-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Donations
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Support charitable causes and contribute to community development projects.
-          </p>
-        </div>
 
-        {/* Search and Filter */}
-        <div className="mb-8 space-y-4">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1 relative">
-              <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={20} />
-              <input
-                type="text"
-                placeholder="Search donations by title, organization, or description..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-              />
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/20 to-primary/5">
+        <div className="absolute inset-0 opacity-10">
+          <div
+            className="w-full h-full"
+            style={{
+              backgroundImage: `
+                radial-gradient(circle at 25% 25%, hsl(var(--primary)) 2px, transparent 2px),
+                radial-gradient(circle at 75% 75%, hsl(var(--accent)) 2px, transparent 2px),
+                radial-gradient(circle at 25% 75%, hsl(var(--primary)) 1px, transparent 1px),
+                radial-gradient(circle at 75% 25%, hsl(var(--accent)) 1px, transparent 1px)
+              `,
+              backgroundSize: "100px 100px",
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Mosque silhouette */}
+      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-primary/20 to-transparent">
+        <svg className="absolute bottom-0 w-full h-48 text-primary/30" viewBox="0 0 800 200" fill="currentColor">
+          <path d="M0,200 L0,120 Q100,80 200,120 L200,140 Q250,100 300,140 L300,200 Z" />
+          <path d="M300,200 L300,130 Q400,90 500,130 L500,150 Q550,110 600,150 L600,200 Z" />
+          <path d="M600,200 L600,140 Q700,100 800,140 L800,200 Z" />
+          <circle cx="150" cy="120" r="8" />
+          <circle cx="350" cy="130" r="6" />
+          <circle cx="650" cy="140" r="7" />
+        </svg>
+      </div>
+
+      {/* Main content */}
+      <div className="relative z-10 min-h-[calc(100vh-64px)] flex items-center justify-center p-4">
+        <div className="w-full max-w-3xl">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <div className="flex justify-center items-center gap-3 mb-3">
+              <Moon className="w-8 h-8 text-primary" />
+              <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                Support Our Community
+              </h1>
+              <Star className="w-8 h-8 text-accent" />
             </div>
-            <div className="flex items-center gap-2">
-              <FiFilter size={20} className="text-muted-foreground" />
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-4 py-3 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-              >
-                {categories.map(category => (
-                  <option key={category} value={category}>
-                    {category === 'all' ? 'All Categories' : category}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-        </div>
-
-        {/* Results Count */}
-        <div className="mb-6">
-          <p className="text-muted-foreground">
-            Showing {filteredDonations.length} of {donationsData.length} donation campaigns
-          </p>
-        </div>
-
-        {/* Donations Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredDonations.map((donation) => (
-            <Card key={donation.id} className="hover:shadow-md transition-all duration-200 overflow-hidden">
-              {/* Image */}
-              <div className="relative h-48 bg-muted">
-                <img 
-                  src={donation.image} 
-                  alt={donation.title}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute top-3 right-3">
-                  <Badge className={getUrgencyColor(donation.urgency)}>
-                    {donation.urgency}
-                  </Badge>
-                </div>
-              </div>
-
-              <CardHeader>
-                <div className="space-y-2">
-                  <CardTitle className="text-lg line-clamp-2">{donation.title}</CardTitle>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <FiUsers size={16} />
-                    <span>{donation.organization}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <FiMapPin size={16} />
-                    <span>{donation.location}</span>
-                  </div>
-                </div>
-              </CardHeader>
-
-              <CardContent className="space-y-4">
-                <p className="text-sm text-muted-foreground line-clamp-3">
-                  {donation.description}
-                </p>
-
-                {/* Progress Bar */}
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Progress</span>
-                    <span className="font-medium">{Math.round(calculateProgress(donation.raised, donation.goal))}%</span>
-                  </div>
-                  <div className="w-full bg-muted rounded-full h-2">
-                    <div 
-                      className="bg-primary h-2 rounded-full transition-all duration-300"
-                      style={{ width: `${calculateProgress(donation.raised, donation.goal)}%` }}
-                    ></div>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">${donation.raised.toLocaleString()}</span>
-                    <span className="text-muted-foreground">${donation.goal.toLocaleString()}</span>
-                  </div>
-                </div>
-
-                {/* Stats */}
-                <div className="flex items-center justify-between text-sm text-muted-foreground">
-                  <span>{donation.donors} donors</span>
-                  <span>Ends {new Date(donation.endDate).toLocaleDateString()}</span>
-                </div>
-
-                {/* Action Button */}
-                <Link to={`/donations/${donation.id}`}>
-                  <Button className="w-full flex items-center gap-2">
-                    <FiHeart size={16} />
-                    Learn More
-                    <FiArrowRight size={16} />
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {/* No Results */}
-        {filteredDonations.length === 0 && (
-          <div className="text-center py-12">
-            <FiHeart size={48} className="text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-foreground mb-2">No donations found</h3>
-            <p className="text-muted-foreground">
-              Try adjusting your search terms or category filter.
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Your generous donation helps us serve our community and spread knowledge and peace
             </p>
           </div>
-        )}
+
+          {/* Donation Form */}
+          <Card className="shadow-2xl border-2 border-primary/20 backdrop-blur-sm bg-card/95">
+            <CardHeader className="text-center">
+              <CardTitle className="text-2xl text-primary flex items-center justify-center gap-2">
+                <Heart className="w-6 h-6" />
+                Make a Donation
+              </CardTitle>
+              <CardDescription>Every contribution, no matter the size, makes a difference</CardDescription>
+            </CardHeader>
+
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Quick amount */}
+                <div className="space-y-3">
+                  <Label className="text-base font-medium">Select Amount (USD)</Label>
+                  <div className="grid grid-cols-3 md:grid-cols-5 gap-2">
+                    {predefinedAmounts.map((amount) => (
+                      <Button
+                        key={amount}
+                        type="button"
+                        variant={formData.amount === amount.toString() ? "default" : "outline"}
+                        onClick={() => handleAmountSelect(amount)}
+                        className="h-12"
+                      >
+                        ${amount}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Donor info */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="donorName">Name (Optional)</Label>
+                    <Input
+                      id="donorName"
+                      type="text"
+                      value={formData.donorName}
+                      onChange={(e) => setFormData((p) => ({ ...p, donorName: e.target.value }))}
+                      placeholder="Your name"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="donorEmail">Email (Optional)</Label>
+                    <Input
+                      id="donorEmail"
+                      type="email"
+                      value={formData.donorEmail}
+                      onChange={(e) => setFormData((p) => ({ ...p, donorEmail: e.target.value }))}
+                      placeholder="your@email.com"
+                    />
+                  </div>
+                </div>
+
+                {/* Message */}
+                <div className="space-y-2">
+                  <Label htmlFor="tagNote">Message/Note (Optional)</Label>
+                  <Textarea
+                    id="tagNote"
+                    rows={3}
+                    value={formData.tagNote}
+                    onChange={(e) => setFormData((p) => ({ ...p, tagNote: e.target.value }))}
+                    placeholder="Leave a message or note with your donation..."
+                  />
+                </div>
+
+                {/* Submit */}
+                <Button className="w-full h-12 text-lg font-semibold" type="submit" disabled={isLoading || !formData.amount}>
+                  {isLoading ? "Processing..." : (
+                    <>
+                      <Heart className="w-5 h-5 mr-2" />
+                      Donate ${formData.amount || "0"}
+                    </>
+                  )}
+                </Button>
+              </form>
+
+              {/* Security note */}
+              <div className="mt-6 p-4 bg-muted/50 rounded-lg">
+                <p className="text-sm text-muted-foreground text-center">
+                  🔒 Your payment is securely processed by Stripe. We never store your payment information.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );
