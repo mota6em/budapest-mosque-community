@@ -230,8 +230,8 @@ const EventsPage = () => {
           {/* FullCalendar */}
           <div className="lg:col-span-2">
             <Card className="overflow-hidden">
-              <CardHeader className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950/30 dark:to-purple-950/30 border-b border-border">
-                <CardTitle className="text-xl flex items-center gap-2">
+              <CardHeader className="px-6 py-3 border-b border-border">
+                <CardTitle className="text-xl flex items-center gap-2 dark:text-blue-400">
                   <FiCalendar className="text-blue-600 dark:text-blue-400" />
                   Events Calendar
                 </CardTitle>
