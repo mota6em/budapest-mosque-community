@@ -125,7 +125,7 @@ const DonationsListPage = () => {
               <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                 Support Our Community
               </h1>
-              <Star className="w-8 h-8 text-accent" />
+              <Star className="w-8 h-8 text-primary" />
             </div>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Your generous donation helps us serve our community and spread knowledge and peace
@@ -224,3 +224,4 @@ const DonationsListPage = () => {
 };
 
 export default DonationsListPage;
+
