@@ -1,8 +1,7 @@
 import React from 'react';
 import Header from './Header';
 import Hero from './Hero';
-import PrayerTimesWidget from './PrayerTimesWidget';
-import SpiritualContent from './SpiritualContent';
+ import SpiritualContent from './SpiritualContent';
 import QuickNavigation from './QuickNavigation';
 
 const HomePage = () => {
@@ -13,10 +12,6 @@ const HomePage = () => {
       
       {/* Hero Section */}
       <Hero />
-      
-      {/* Prayer Times Widget */}
-      <PrayerTimesWidget />
-      
       {/* Spiritual Content */}
       <SpiritualContent />
       

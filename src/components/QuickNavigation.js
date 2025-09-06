@@ -1,68 +1,64 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Button } from './ui/button';
-import { Badge } from './ui/badge';
-import { 
-  FiBook, 
-  FiHeart, 
-  FiClock, 
-  FiCalendar, 
-  FiUsers, 
+import React from "react";
+import { Link } from "react-router-dom";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
+import {
+  FiBook,
+  FiHeart,
+  FiClock,
+  FiCalendar,
+  FiUsers,
   FiFileText,
-  FiArrowRight 
-} from 'react-icons/fi';
+  FiArrowRight,
+} from "react-icons/fi";
 
 const QuickNavigation = () => {
   const navigationItems = [
     {
       icon: FiBook,
-      title: 'Islamic Guide',
-      subtitle: 'Learn & Grow',
-      description: 'Access comprehensive Islamic knowledge, rulings, and educational resources',
-      color: 'text-primary',
-      link: '/islamic-guide'
+      title: "Islamic Guide",
+      subtitle: "Learn & Grow",
+      description:
+        "Access comprehensive Islamic knowledge, rulings, and educational resources",
+      color: "text-primary",
+      link: "/islamic-guide",
     },
     {
       icon: FiHeart,
-      title: 'Donations',
-      subtitle: 'Give Back',
-      description: 'Support charitable causes and contribute to community development',
-      color: 'text-red-500',
-      link: '/donations'
+      title: "Donations",
+      subtitle: "Give Back",
+      description:
+        "Support charitable causes and contribute to community development",
+      color: "text-red-500",
+      link: "/donations",
     },
     {
       icon: FiClock,
-      title: 'Prayer Times',
-      subtitle: 'Prayer Schedule',
-      description: 'Get accurate prayer times for your location with notifications',
-      color: 'text-green-500',
-      link: '/prayer-times'
+      title: "Prayer Times",
+      subtitle: "Prayer Schedule",
+      description:
+        "Get accurate prayer times for your location with notifications",
+      color: "text-green-500",
+      link: "/prayer-times",
     },
     {
       icon: FiCalendar,
-      title: 'Calendar',
-      subtitle: 'Community Events',
-      description: 'Stay updated with Islamic events, classes, and community activities',
-      color: 'text-blue-500',
-      link: '/calendar'
-    },
-    {
-      icon: FiCalendar,
-      title: 'Events',
-      subtitle: 'Community',
-      description: 'Discover and participate in Islamic events, educational programs, and community activities',
-      color: 'text-purple-500',
-      link: '/events'
+      title: "Events",
+      subtitle: "Community",
+      description:
+        "Discover and participate in Islamic events, educational programs, and community activities",
+      color: "text-purple-500",
+      link: "/events",
     },
     {
       icon: FiFileText,
-      title: 'Jumaa Sermons',
-      subtitle: 'Khutbah Archive',
-      description: 'Watch weekly Friday khutbahs with details and descriptions',
-      color: 'text-orange-500',
-      link: '/sermons'
-    }
+      title: "Jumaa Sermons",
+      subtitle: "Khutbah Archive",
+      description: "Watch weekly Friday khutbahs with details and descriptions",
+      color: "text-orange-500",
+      link: "/sermons",
+    },
   ];
 
   return (
@@ -86,7 +82,9 @@ const QuickNavigation = () => {
               <Link key={index} to={item.link}>
                 <Card className="hover:shadow-md transition-all duration-200 cursor-pointer group">
                   <CardHeader>
-                    <div className={`w-12 h-12 bg-muted rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200`}>
+                    <div
+                      className={`w-12 h-12 bg-muted rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200`}
+                    >
                       <IconComponent size={24} className={item.color} />
                     </div>
                     <CardTitle className="text-xl group-hover:text-primary transition-colors duration-200">
@@ -95,10 +93,13 @@ const QuickNavigation = () => {
                   </CardHeader>
 
                   <CardContent className="space-y-4">
-                    <Badge variant="outline" className={`${item.color} border-current`}>
+                    <Badge
+                      variant="outline"
+                      className={`${item.color} border-current`}
+                    >
                       {item.subtitle}
                     </Badge>
-                    
+
                     <p className="text-sm text-muted-foreground leading-relaxed">
                       {item.description}
                     </p>
@@ -108,7 +109,9 @@ const QuickNavigation = () => {
                       <span className="text-xs text-muted-foreground font-medium">
                         Click to explore
                       </span>
-                      <div className={`${item.color} group-hover:translate-x-1 transition-transform duration-200`}>
+                      <div
+                        className={`${item.color} group-hover:translate-x-1 transition-transform duration-200`}
+                      >
                         <FiArrowRight size={18} />
                       </div>
                     </div>
@@ -123,25 +126,28 @@ const QuickNavigation = () => {
         <div className="text-center">
           <Card className="bg-primary text-primary-foreground border-0">
             <CardHeader className="text-center">
-              <CardTitle className="text-2xl">Join Budapest Mosque Community</CardTitle>
+              <CardTitle className="text-2xl">
+                Join Budapest Mosque Community
+              </CardTitle>
             </CardHeader>
             <CardContent className="text-center">
               <p className="text-lg opacity-90 mb-6 max-w-2xl mx-auto">
-                Connect with fellow Muslims in Budapest, access Islamic resources, and grow together in faith. 
-                Your spiritual journey in Hungary starts here.
+                Connect with fellow Muslims in Budapest, access Islamic
+                resources, and grow together in faith. Your spiritual journey in
+                Hungary starts here.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button 
-                  variant="secondary" 
-                  size="lg" 
+                <Button
+                  variant="secondary"
+                  size="lg"
                   className="bg-primary-foreground text-primary hover:bg-primary-foreground/90"
                 >
                   Join BMC
                 </Button>
-                <Button 
-                  variant="outline" 
-                  size="lg" 
-                  className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-primary-foreground/30  text-white hover:bg-primary-foreground/10"
                 >
                   Contact Us
                 </Button>
