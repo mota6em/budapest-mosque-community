@@ -72,7 +72,7 @@ const Hero = () => {
           <h1 className="text-2xl md:text-6xl font-extrabold text-white drop-shadow-2xl cursor-default">
             Welcome to{" "}
             <span className="bg-clip-text text-6xl text-transparent bg-gradient-to-r from-green-400 to-blue-400">
-              Budapest Moasque Community
+              Budapest Mosque Community
             </span>
           </h1>
 
