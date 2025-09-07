@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 
 const images = [
+  "/images/a3.jpg",
   "/images/havi-imaidok.jpg",
   "/images/a5.jpg",
   "/images/khutba.jpg",
-  "/images/a3.jpg",
   "/images/a2.jpg",
   "/images/inside2.jpg",
   "/images/a4.jpg",
@@ -40,7 +40,7 @@ const Hero = () => {
 
     const interval = setInterval(() => {
       changeImage();
-    }, 10000); // random 5-8s per image
+    }, 15000); // random 5-8s per image
 
     return () => clearInterval(interval);
   }, []);
