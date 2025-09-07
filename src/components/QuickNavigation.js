@@ -147,7 +147,7 @@ const QuickNavigation = () => {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="border-primary-foreground/30  text-white hover:bg-primary-foreground/10"
+                  className="border-primary-foreground/30  text-yellow-600 hover:bg-primary-foreground/10"
                 >
                   Contact Us
                 </Button>
