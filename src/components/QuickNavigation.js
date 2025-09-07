@@ -15,15 +15,15 @@ import {
 
 const QuickNavigation = () => {
   const navigationItems = [
-    {
-      icon: FiBook,
-      title: "Islamic Guide",
-      subtitle: "Learn & Grow",
-      description:
-        "Access comprehensive Islamic knowledge, rulings, and educational resources",
-      color: "text-primary",
-      link: "/islamic-guide",
-    },
+    // {
+    //   icon: FiBook,
+    //   title: "Islamic Guide",
+    //   subtitle: "Learn & Grow",
+    //   description:
+    //     "Access comprehensive Islamic knowledge, rulings, and educational resources",
+    //   color: "text-primary",
+    //   link: "/islamic-guide",
+    // },
     {
       icon: FiHeart,
       title: "Donations",
