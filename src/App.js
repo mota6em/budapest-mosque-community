@@ -6,8 +6,8 @@ import HomePage from "./components/HomePage";
 
 // Islamic Guide Pages
 import IslamicGuide from "./pages/IslamicGuide";
-import HadithPage from "./pages/HadithPage";
-import HadithDetailPage from "./pages/HadithDetailPage";
+// import HadithPage from "./pages/HadithPage";
+// import HadithDetailPage from "./pages/HadithDetailPage";
 import PrayerTimesPage from "./pages/PrayerTimesPage";
 import FastingTipsPage from "./pages/FastingTipsPage";
 import Islam101Page from "./pages/Islam101Page";
@@ -48,8 +48,8 @@ function App() {
               
               {/* Islamic Guide Routes */}
               <Route path="/islamic-guide" element={<IslamicGuide />} />
-              <Route path="/hadith" element={<HadithPage />} />
-              <Route path="/hadith/:id" element={<HadithDetailPage />} />
+              {/* <Route path="/hadith" element={<HadithPage />} />
+              <Route path="/hadith/:id" element={<HadithDetailPage />} /> */}
               <Route path="/prayer-times" element={<PrayerTimesPage />} />
               <Route path="/fasting-tips" element={<FastingTipsPage />} />
               <Route path="/islam-101" element={<Islam101Page />} />
