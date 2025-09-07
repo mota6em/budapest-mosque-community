@@ -23,7 +23,8 @@ const quotes = [
 
 const Hero = () => {
   const [currentImg, setCurrentImg] = useState(0);
-  const [quoteIndex, setQuoteIndex] = useState(0);
+  // const [quoteIndex, setQuoteIndex] = useState(0);
+  const quoteIndex = 0;
   const [typewriterText, setTypewriterText] = useState("");
   const [fade, setFade] = useState(true);
 

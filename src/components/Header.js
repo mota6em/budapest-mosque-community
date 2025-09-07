@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
 import { Badge } from './ui/badge';
 import { 
   FiClock, 
   FiBook, 
-  FiNavigation, 
-  FiInfo,
   FiMenu,
   FiX,
-  FiUsers,
   FiHeart,
   FiCalendar,
   FiFileText
