@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -7,7 +7,7 @@ import Header from '../components/Header';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Button } from '../components/ui/button';
-import { FiCalendar, FiClock, FiMapPin, FiUsers, FiFilter, FiExternalLink, FiHeart, FiShare2, FiX, FiRefreshCw } from 'react-icons/fi';
+import { FiCalendar, FiMapPin, FiUsers, FiFilter, FiHeart, FiShare2, FiX, FiRefreshCw } from 'react-icons/fi';
 import { db } from '../lib/supabase';
 
 const EventsPage = () => {
@@ -118,14 +118,6 @@ const EventsPage = () => {
     }
   };
 
-  const getTypeColor = (type) => {
-    switch (type) {
-      case 'special': return 'bg-yellow-500 text-black';
-      case 'recurring': return 'bg-green-500 text-white';
-      default: return 'bg-gray-500 text-white';
-    }
-  };
-
   const formatDate = (dateString) => {
     if (!dateString) return 'Date not set';
     return new Date(dateString).toLocaleDateString('en-US', { 
@@ -133,10 +125,6 @@ const EventsPage = () => {
       month: 'short', 
       day: 'numeric' 
     });
-  };
-
-  const formatTime = (timeString) => {
-    return timeString || 'Time not set';
   };
 
   if (loading) {

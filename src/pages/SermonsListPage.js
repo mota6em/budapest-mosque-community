@@ -11,8 +11,8 @@ import { db } from '../lib/supabase';
 const SermonCard = ({ sermon }) => {
   const thumb = useMemo(() => getYouTubeThumbnail(sermon.link, 'hqdefault'), [sermon.link]);
   const videoId = useMemo(() => getYouTubeVideoId(sermon.link), [sermon.link]);
-  const [isPlaying, setIsPlaying] = useState(false);
-  
+  // const [isPlaying, setIsPlaying] = useState(false);
+  const isPlaying = false;
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
       <div className="relative h-44 bg-muted">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -7,7 +7,7 @@ import {
 } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Tabs } from "../components/ui/tabs";
-import { FiDollarSign, FiPlus, FiTrash2, FiEdit } from "react-icons/fi";
+import { FiDollarSign, FiPlus, FiTrash2 } from "react-icons/fi";
 import { donationsService } from "../services/adminService";
 
 const AdminDonationsPage = () => {

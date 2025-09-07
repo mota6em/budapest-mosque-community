@@ -1,7 +1,5 @@
-import React from 'react';
 import Header from '../components/Header';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
-import { Badge } from '../components/ui/badge';
 import { FiBook, FiHeart, FiStar, FiUsers, FiTarget, FiAward } from 'react-icons/fi';
 
 const Islam101Page = () => {
